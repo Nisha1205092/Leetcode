@@ -2,17 +2,13 @@
 
 # dependencies
 /express-backend-app/node_modules
-/.pnp
-.pnp.js
+
 
 # testing
 /coverage
 
 # production
-/build
-
-.DS_Store
-
+/express-backend-app/build
 
 # misc
 .DS_Store
@@ -25,5 +21,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Local Netlify folder
-.netlify
+
