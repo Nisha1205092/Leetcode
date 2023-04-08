@@ -2,22 +2,23 @@ export const QUESTIONS = [
     {
         title: "Two states",
         description: "Given an array, return the maximum of the array?",
-        testCases: [{
-            input: "[1, 2, 3, 4, 5]",
-            output: "5"
-        }, {
-            input: "[-3, 0, 7, -10, 12]",
-            output: "12"
-        }, {
-            input: "[10, -5, 8, 20, 3]",
-            output: "20"
-        }, {
-            input: "[0, 0, 0, 0, 0]",
-            output: "0"
-        }, {
-            input: "[-1, -2, -3, -4, -5]",
-            output: "-1"
-        }]
+        testCases: [
+            {
+                input: "[1, 2, 3, 4, 5]",
+                output: "5"
+            }, {
+                input: "[-3, 0, 7, -10, 12]",
+                output: "12"
+            }, {
+                input: "[10, -5, 8, 20, 3]",
+                output: "20"
+            }, {
+                input: "[0, 0, 0, 0, 0]",
+                output: "0"
+            }, {
+                input: "[-1, -2, -3, -4, -5]",
+                output: "-1"
+            }]
     },
     {
         title: "Sum of Two Numbers",
