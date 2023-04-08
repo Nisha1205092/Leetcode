@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 1em;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 1em;
+}
+
+li {
+    border: 1px solid #ccc;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+li h3 {
+    margin: 0;
+}
+
+li p {
+    margin: 0;
+    margin-top: 0.5em;
+}
+
+.question-container {
+    width: 60%;
+    margin: 50px auto;
+}
