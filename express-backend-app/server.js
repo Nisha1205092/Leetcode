@@ -41,12 +41,11 @@ app.post('/signup', (req, res) => {
 
     const userExists = users.some(user => user.email === email);
     if (userExists) {
-        return res.status(400).json({ error: 'User already exists' });
+        return res.status(400).json({ error: 'UserAlreadyExists' });
     } else {
         bcrypt.hash(password, salt, (err, hash) => {
             if (err) {
-                console.log(err);
-                return res.status(500).json({ error: 'Failed to hash password' });
+                return res.status(500).json({ error: 'FailedToHashPassword' });
             }
             const newUser = { name, email, password: hash };
             users.push(newUser);

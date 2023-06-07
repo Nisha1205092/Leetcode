@@ -3,5 +3,15 @@
         "name": "Bipasha",
         "email": "bipu@gmail.com",
         "password": "$2b$10$Vyf9cXOjRAuf9g9kQhhY4upWfWoegUJgvQxdYKXxgIJjDpSJjahyW"
+    },
+    {
+        "name": "Nisha",
+        "email": "nisha@gmail.com",
+        "password": "$2b$10$0mr9TEnWuHQ9QDnQIduope3ISi3Xm0vWff/Mt6Xc7CTRMvTzAcIPi"
+    },
+    {
+        "name": "Asha",
+        "email": "asha@gmail.com",
+        "password": "$2b$10$PL3xd7Kmd1e00tfohxpNEOj4nVkFdPtPyEhYKqXE9JV980tShnZfW"
     }
 ]
