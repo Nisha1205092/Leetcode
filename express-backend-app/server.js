@@ -1,9 +1,8 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { generateRandomString } from './randomStringGenerator.js';
-import { USERS } from './users.js';
 import { QUESTIONS } from './questions.js';
-// import { generateRandomString } from '../utils';
+import { readUsersFromFile, writeUsersToFile } from './utils.js';
+import bcrypt from 'bcrypt';
 
 const app = express();
 
@@ -20,7 +19,7 @@ app.use(express.json());
 // Allow requests from any origin
 app.use((req, res, next) => {
     // using "live server" extension of VSCode to host the index.html file
-    const allowedOrigins = ['http://127.0.0.1:5500'];
+    const allowedOrigins = ['http://127.0.0.1:5500', 'http://localhost:3000'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
@@ -30,49 +29,57 @@ app.use((req, res, next) => {
     next();
 });
 
-const port = 3000;
+const port = 3003;
 
-// const QUESTIONS = [{
-//     title: "Two states",
-//     description: "Given an array , return the maximum of the array?",
-//     testCases: [{
-//         input: "[1,2,3,4,5]",
-//         output: "5"
-//     }]
-// }];
-
-
+// Function to read users from the JSON file
 app.post('/signup', (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
+    const salt = 10; // value generally between 5-15
+    const users = readUsersFromFile();
 
-    const userExists = USERS.some(user => user.email === email);
+    const userExists = users.some(user => user.email === email);
     if (userExists) {
         return res.status(400).json({ error: 'User already exists' });
     } else {
-        USERS.push({ name, email, password });
-        return res.status(200).json({ success: true, message: 'Signup successful!' });
+        bcrypt.hash(password, salt, (err, hash) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'Failed to hash password' });
+            }
+            const newUser = { name, email, password: hash };
+            users.push(newUser);
+            writeUsersToFile(users);
+            return res.status(200).json({ success: true, message: 'Signup successful!' });
+        })
     }
-
-})
+});
 
 app.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    const user = USERS.find(user => user.email === email && user.password === password);
-    if (user) {
-        // Assuming `generateRandomString` is a function that generates a random string
-        const randomString = generateRandomString(10);
-        // Set authToken and username as cookies
-        res.cookie('authToken', randomString);
-        res.cookie('username', user.name);
-        // Redirect to /dashboard
-        return res.status(200).json({ success: true, message: 'Login successful!' });
-    } else {
-        return res.status(401).json({ error: 'error logging in' });
+    const users = readUsersFromFile();
+
+    const user = users.find(user => user.email === email);
+    if (!user) {
+        return res.status(401).json({ error: 'wrong email' });
     }
+    // compare the given password with the stored hash
+    bcrypt.compare(password, user.password, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'wrong password' });
+        }
+        if (result) {
+            return res.status(200).json({ success: true, message: 'login successful' });
+        }
+        else {
+            return res.status(401).json({ error: 'wrong password' });
+        }
+    })
+
 });
 
 app.get('/dashboard', (req, res) => {
@@ -127,7 +134,7 @@ app.get('/submissions', (req, res) => {
 // ensure that only admins can do that.
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Backend app is listening on port ${port}`)
 })
 
 // https://github.com/hkirat/full-stack-assignment
