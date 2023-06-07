@@ -7,6 +7,18 @@ const Authentication = () => {
         var email = document.getElementById("emailSignup").value;
         var password = document.getElementById("passwordSignup").value;
 
+        if (name.trim() === '') {
+            alert('Name must be provided');
+            return;
+        }
+        if (email.trim() === '') {
+            alert('Email must be provided');
+            return;
+        }
+        if (password.trim() === '') {
+            alert('Password must be provided');
+            return;
+        }
         // alert("Signup button clicked! Email: " + email + ", Password: " + password);
 
         // Make a POST request to your Express.js back-end
@@ -30,7 +42,19 @@ const Authentication = () => {
                 document.getElementById("passwordSignup").value = "";
             }
         } catch (error) {
-            console.error('Error:', error);
+            //this block never reaches when error occurs
+            console.log({ error });
+            if (error.response
+                && error.response.status === 400
+                && error.response.data.error === 'UserAlreadyExists') {
+                alert('User email already exists');
+            } else if (error.response
+                && error.response.status === 500
+                && error.response.data.error === 'FailedToHashPassword') {
+                alert('Failed to hash password');
+            } else {
+                alert('An error occurred. Please try again later.');
+            }
             // Handle any errors that occur during the request
         }
     }
@@ -62,6 +86,7 @@ const Authentication = () => {
             }
         } catch (error) {
             console.error('Error:', error);
+
             // Handle any errors that occur during the request
         }
     }
