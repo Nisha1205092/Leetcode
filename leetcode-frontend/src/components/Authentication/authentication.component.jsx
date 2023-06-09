@@ -57,7 +57,14 @@ const Authentication = () => {
         var password = document.getElementById("passwordLogin").value;
         // alert("Login button clicked! Email: " + email + ", Password: " + password);
         // Add your login logic here
-
+        if (email.trim() === '') {
+            alert('Email must be provided');
+            return;
+        }
+        if (password.trim() === '') {
+            alert('Password must be provided');
+            return;
+        }
         // Make a POST request to your Express.js back-end
         try {
             const response = await fetch(`${baseUrl}/login`, {
