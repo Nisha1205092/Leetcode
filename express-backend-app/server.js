@@ -63,19 +63,19 @@ app.post('/login', (req, res) => {
 
     const user = users.find(user => user.email === email);
     if (!user) {
-        return res.status(401).json({ error: 'wrong email' });
+        return res.status(401).json({ error: 'wrongEmail' });
     }
     // compare the given password with the stored hash
     bcrypt.compare(password, user.password, (err, result) => {
         if (err) {
             console.log(err);
-            return res.status(500).json({ error: 'wrong password' });
+            return res.status(500).json({ error: 'wrongPassword' });
         }
         if (result) {
             return res.status(200).json({ success: true, message: 'login successful' });
         }
         else {
-            return res.status(401).json({ error: 'wrong password' });
+            return res.status(401).json({ error: 'wrongPassword' });
         }
     })
 

@@ -40,21 +40,14 @@ const Authentication = () => {
                 document.getElementById("nameSignup").value = "";
                 document.getElementById("emailSignup").value = "";
                 document.getElementById("passwordSignup").value = "";
-            }
-        } catch (error) {
-            //this block never reaches when error occurs
-            console.log({ error });
-            if (error.response
-                && error.response.status === 400
-                && error.response.data.error === 'UserAlreadyExists') {
+            } else if (data.error === 'UserAlreadyExists') {
                 alert('User email already exists');
-            } else if (error.response
-                && error.response.status === 500
-                && error.response.data.error === 'FailedToHashPassword') {
+            } else if (data.error === 'FailedToHashPassword') {
                 alert('Failed to hash password');
-            } else {
-                alert('An error occurred. Please try again later.');
             }
+
+        } catch (error) {
+            alert('some error occurred');
             // Handle any errors that occur during the request
         }
     }
@@ -83,10 +76,13 @@ const Authentication = () => {
                 // Reset input fields
                 document.getElementById("emailLogin").value = "";
                 document.getElementById("passwordLogin").value = "";
+            } else if (data.error === 'wrongPassword') {
+                alert('Wrong password');
+            } else if (data.error === 'wrongEmail') {
+                alert('Wrong email');
             }
         } catch (error) {
             console.error('Error:', error);
-
             // Handle any errors that occur during the request
         }
     }
