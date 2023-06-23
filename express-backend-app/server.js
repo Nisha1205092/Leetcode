@@ -16,16 +16,16 @@ app.use(cookieParser());
 
 // Middleware for parsing JSON request bodies
 app.use(express.json());
-// Allow requests from any origin
+// Allow requests from particular origins
 app.use((req, res, next) => {
     // using "live server" extension of VSCode to host the index.html file
-    const allowedOrigins = ['http://127.0.0.1:5500', 'http://localhost:3000'];
+    const allowedOrigins = ['http://localhost:3000'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 });
 
